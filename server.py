@@ -42,6 +42,8 @@ def register():
 
 @app.route('/register_form', methods=['POST'])
 def registering():
+        """Submit new user"""
+
         email = request.form["email"]
         password = request.form["password"]
         age = int(request.form["age"])
@@ -58,11 +60,15 @@ def registering():
 
 @app.route('/login', methods=['GET'])
 def login_form():
+        """Form to log in"""
+
         return render_template("login_form.html")
 
 
 @app.route('/login', methods=['POST'])
 def logging_in():
+        """Enter log in form"""
+
         email = request.form["email"]
         password = request.form["password"]
 
@@ -84,6 +90,8 @@ def logging_in():
 
 @app.route("/logout")
 def logout():
+    """Log out user"""
+
     del session["user_id"]
     flash("You are logged out.")
     return redirect("/")
@@ -91,17 +99,23 @@ def logout():
 
 @app.route("/users/<int:user_id>")
 def user_detail(user_id):
+        """Show user ratings"""
+
         user = User.query.get(user_id)
         return render_template("user.html", user=user)
 
 @app.route("/movies")
 def movies_list():
+        """Show movie list"""
+
         movies = Movie.query.order_by('title').all()
         return render_template("movie_list.html", movies=movies)
 
 
 @app.route("/movies/<int:movie_id>", methods=["GET"])
 def movie_detail(movie_id):
+        """Get movie review"""
+
         movie = Movie.query.get(movie_id)
         user_id = session.get("user_id")
 
@@ -117,6 +131,8 @@ def movie_detail(movie_id):
 
 @app.route("/movies/<int:movie_id>", methods=["POST"])
 def movie_detail_process(movie_id):
+        """Update movie review"""
+
         score = int(request.form["score"])
         
         user_id = session.get("user_id")
